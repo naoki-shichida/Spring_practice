@@ -5,6 +5,7 @@ import com.example.demo.login.domain.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Autowired
     JdbcTemplate jdbc;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     //Userテーブルの件数を取得
     @Override
@@ -31,22 +35,27 @@ public class UserDaoJdbcImpl implements UserDao {
     //Userテーブルにデータを1件追加
     @Override
     public int insertOne(User user) throws DataAccessException {
-        //1件登録(insert)
+
+        //パスワードの暗号化
+        String password = passwordEncoder.encode(user.getPassword());
+
+        //１件登録
         int rowNumber = jdbc.update("INSERT INTO m_user(user_id,"
-                + " password,"
-                + " user_name,"
-                + " birthday,"
-                + " age,"
-                + " marriage,"
-                + " role)"
-                + "VALUES(?, ?, ?, ?, ?, ?, ?)"
-                ,user.getUserId()
-                ,user.getPassword()
-                ,user.getUserName()
-                ,user.getBirthday()
-                ,user.getAge()
-                ,user.isMarriage()
-                ,user.getRole());
+                        + " password,"
+                        + " user_name,"
+                        + " birthday,"
+                        + " age,"
+                        + " marriage,"
+                        + " role)"
+                        + " VALUES(?, ?, ?, ?, ?, ?, ?)",
+                        user.getUserId(),
+                        password,
+                        user.getUserName(),
+                        user.getBirthday(),
+                        user.getAge(),
+                        user.isMarriage(),
+                        user.getRole());
+
         return rowNumber;
     }
 
@@ -110,26 +119,24 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public int updateOne(User user) throws DataAccessException {
 
+        //パスワードの暗号化
+        String password = passwordEncoder.encode(user.getPassword());
+
         //1件更新
         int rowNumber = jdbc.update("UPDATE M_USER"
-                + " SET"
-                + " password = ?,"
-                + " user_name = ?,"
-                + " birthday = ?,"
-                + " age = ?,"
-                + " marriage = ?"
-                + " WHERE user_id = ?"
-                , user.getPassword()
-                , user.getUserName()
-                , user.getBirthday()
-                , user.getAge()
-                , user.isMarriage()
-                , user.getUserId());
-
-        //トランザクション確認のため、わざと例外をthrowする
-//        if(rowNumber > 0) {
-//            throw new DataAccessException("トランザクション") {};
-//        }
+                        + " SET"
+                        + " password = ?,"
+                        + " user_name = ?,"
+                        + " birthday = ?,"
+                        + " age = ?,"
+                        + " marriage = ?"
+                        + " WHERE user_id = ?",
+                        password,
+                        user.getUserName(),
+                        user.getBirthday(),
+                        user.getAge(),
+                        user.isMarriage(),
+                        user.getUserId());
 
             return rowNumber;
     }

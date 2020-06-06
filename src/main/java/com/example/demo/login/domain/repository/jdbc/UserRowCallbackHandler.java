@@ -17,7 +17,7 @@ public class UserRowCallbackHandler implements RowCallbackHandler {
         try {
 
             //ファイル書き込みの準備
-            File file = new File("sample.csv");
+            File file = new File("userList.csv");
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 

@@ -2,6 +2,7 @@ package com.example.demo.login.domain.service;
 
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -24,6 +25,7 @@ public class UserService {
     UserDao dao;
 
     //insert用メソッド
+
     public boolean insert(User user) {
 
         //insert実行
@@ -32,12 +34,8 @@ public class UserService {
         //判定用変数
         boolean result = false;
 
-        if(rowNumber > 0) {
-            //insert成功
-            result = true;
-        }
-
-        return result;
+        //insert成功
+        return (rowNumber > 0);
     }
 
     //カウント用メソッド
@@ -60,17 +58,14 @@ public class UserService {
     //1件更新メソッド
     public boolean updateOne(User user) {
 
-        //1件更新
-        int rowNumber = dao.updateOne(user);
-
         //判定用変数
         boolean result= false;
 
-        if(rowNumber > 0) {
-            //update成功
-            result = true;
-        }
-        return result;
+        //1件更新
+        int rowNumber = dao.updateOne(user);
+
+        //update成功
+        return (rowNumber > 0);
     }
 
     //1件削除メソッド
@@ -82,11 +77,8 @@ public class UserService {
         //判定用変数
         boolean result = false;
 
-        if(rowNumber > 0) {
-            //delete成功
-            result = true;
-        }
-        return result;
+        //delete成功
+        return (rowNumber > 0);
     }
 
     // ユーザー一覧をCSV出力する.

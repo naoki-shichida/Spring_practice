@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +45,12 @@ public class HomeController {
         return radio;
     }
 
-    //ホーム画面のGETメソッド
+    /**
+     * ホーム画面のGETメソッド
+     *
+     * @param model 画面から受け取る情報
+     * @return 取得結果
+     */
     @GetMapping("/home")
     public String getHome(Model model) {
 
@@ -74,7 +80,6 @@ public class HomeController {
         return "login/homeLayout";
     }
 
-    //動的URL、@PathVariable、ユーザー詳細画面のGET用メソッド
     @GetMapping("/userDetail/{id:.+}")
     public String getUserDetail(@ModelAttribute SignupForm form,
                                 Model model,
@@ -92,7 +97,7 @@ public class HomeController {
         model.addAttribute("radioMarriage", radioMarriage);
 
         //ユーザーIDのチェック
-        if(userId!= null && userId.length() > 0) {
+        if(!StringUtils.isEmpty(userId)) {
             //ユーザー情報を取得
             User user = userService.selectOne(userId);
 
@@ -133,7 +138,7 @@ public class HomeController {
             //更新実行
             boolean result = userService.updateOne(user);
 
-            if (result = true) {
+            if (result) {
                 model.addAttribute("result", "更新成功");
             } else {
                 model.addAttribute("result", "更新失敗");
@@ -157,7 +162,7 @@ public class HomeController {
         //削除実行
         boolean result = userService.deleteOne(form.getUserId());
 
-        if(result == true) {
+        if(result) {
             model.addAttribute("result","削除成功");
         } else {
             model.addAttribute("result","削除失敗");
@@ -184,8 +189,8 @@ public class HomeController {
 
         try {
 
-            //サーバーに保存されているsample.csvファイルをbyteで取得する
-            bytes = userService.getFile("sample.csv");
+            //サーバーに保存されているuserList.csvファイルをbyteで取得する
+            bytes = userService.getFile("userList.csv");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -194,9 +199,21 @@ public class HomeController {
         //HTTPヘッダーの設定
         HttpHeaders header = new HttpHeaders();
         header.add("Content-Type", "text/csv; charset=UTF-8");
-        header.setContentDispositionFormData("filename", "sample.csv");
+        header.setContentDispositionFormData("filename", "userList.csv");
 
         //sample.csvを戻す
         return new ResponseEntity<>(bytes, header, HttpStatus.OK);
+    }
+
+
+    //アドミン権限専用画面のGET用メソッド
+    @GetMapping("/admin")
+    public String getAdmin(Model model) {
+
+        //コンテンツ部分にユーザー詳細を表示するための文字列を登録
+        model.addAttribute("contents", "login/admin :: admin_contents");
+
+        //レイアウト用テンプレート
+        return "login/homeLayout";
     }
 }
