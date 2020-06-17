@@ -25,7 +25,6 @@ public class UserService {
     UserDao dao;
 
     //insert用メソッド
-
     public boolean insert(User user) {
 
         //insert実行

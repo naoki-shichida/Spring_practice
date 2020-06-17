@@ -26,10 +26,8 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public int count() throws DataAccessException {
 
-        //ポイント：オブジェクトの取得,全権取得してカウント
-        int count = jdbc.queryForObject("SELECT COUNT(*) FROM m_user", Integer.class);
-
-        return count;
+        //オブジェクトの取得,全件取得してカウント
+        return jdbc.queryForObject("SELECT COUNT(*) FROM m_user", Integer.class);
     }
 
     //Userテーブルにデータを1件追加
@@ -40,7 +38,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String password = passwordEncoder.encode(user.getPassword());
 
         //１件登録
-        int rowNumber = jdbc.update("INSERT INTO m_user(user_id,"
+        return jdbc.update("INSERT INTO m_user(user_id,"
                         + " password,"
                         + " user_name,"
                         + " birthday,"
@@ -55,8 +53,6 @@ public class UserDaoJdbcImpl implements UserDao {
                         user.getAge(),
                         user.isMarriage(),
                         user.getRole());
-
-        return rowNumber;
     }
 
     //Userテーブルにデータを1件取得
@@ -87,7 +83,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public List<User> selectMany() throws DataAccessException {
 
-        //ポイント：複数件のセレクト、M_USERテーブルのデータを全件取得
+        //複数件のセレクト、M_USERテーブルのデータを全件取得
         List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM m_user");
 
         //結果返却用の変数
@@ -123,7 +119,7 @@ public class UserDaoJdbcImpl implements UserDao {
         String password = passwordEncoder.encode(user.getPassword());
 
         //1件更新
-        int rowNumber = jdbc.update("UPDATE M_USER"
+        return jdbc.update("UPDATE M_USER"
                         + " SET"
                         + " password = ?,"
                         + " user_name = ?,"
@@ -137,8 +133,6 @@ public class UserDaoJdbcImpl implements UserDao {
                         user.getAge(),
                         user.isMarriage(),
                         user.getUserId());
-
-            return rowNumber;
     }
 
     //Userテーブルを1件削除
@@ -146,9 +140,7 @@ public class UserDaoJdbcImpl implements UserDao {
     public int deleteOne(String userId) throws  DataAccessException {
 
         //1件削除
-        int rowNumber = jdbc.update("DELETE FROM m_user WHERE user_id = ?", userId);
-
-        return rowNumber;
+        return jdbc.update("DELETE FROM m_user WHERE user_id = ?", userId);
     }
 
     //SQL取得結果をサーバーにCSVで保存する

@@ -25,9 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    //ポイント1：パスワードエンコーダーのBean定義
+    //パスワードエンコーダーのBean定義
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
@@ -53,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
 
-        //ポイント2：静的リソースを除外
+        //静的リソースを除外
         //静的リソースもアクセスには、セキュリティを適用しない
         web.ignoring().antMatchers("/webjars/**", "/css/**");
     }
@@ -61,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //ポイント3：直リンクの禁止
+        //直リンクの禁止
         //ログイン不要ページの設定
         http
                 .authorizeRequests()
@@ -103,8 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        //ポイント1：ユーザーデータの取得（DB）
-        //ポイント2：ログイン時のパスワード復号
+        //ユーザーデータの取得（DB）
+        //ログイン時のパスワード復号
         // ログイン処理時のユーザー情報を、DBから取得する
         auth.jdbcAuthentication()
                 .dataSource(dataSource)

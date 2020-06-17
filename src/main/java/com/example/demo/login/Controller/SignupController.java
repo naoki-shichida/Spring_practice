@@ -26,13 +26,11 @@ public class SignupController {
     @Autowired
     private UserService userService;
 
-    //ラジオボタン実装
     private Map<String, String> radioMarriage;
 
     private Map<String, String> initRadioMarrige() {
         Map<String, String>radio = new LinkedHashMap<>();
 
-        //既婚、未婚をMapに格納
         radio.put("既婚", "true");
         radio.put("未婚", "false");
 
@@ -55,14 +53,14 @@ public class SignupController {
                              BindingResult bindingResult,
                              Model model) {
 
-        //ポイント3：データバインド失敗の場合
+        //データバインド失敗の場合
         //入力チェックに引っかかった場合、ユーザー登録画面に戻る
         if(bindingResult.hasErrors()) {
 
             return getSignUp(form, model);
         }
 
-        //formの中身をコンソールに出して確認すします
+        //formの中身をコンソールに出して確認
         System.out.println(form);
 
         //insert用変数

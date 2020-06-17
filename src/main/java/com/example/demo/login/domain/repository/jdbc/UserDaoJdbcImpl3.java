@@ -18,7 +18,7 @@ public class UserDaoJdbcImpl3 extends UserDaoJdbcImpl {
     @Override
     public User selectOne(String userId) {
 
-        //1件取得用SQL
+        //キーを元にユーザー情報を取得
         String sql = "SELECT * FROM m_user WHERE user_id = ?";
 
         //ポイント：BeanPropertyMapper,RowMapperの生成

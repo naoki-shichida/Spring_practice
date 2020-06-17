@@ -60,7 +60,12 @@ public class HomeController {
         return "login/homeLayout";
     }
 
-    //ユーザー一覧画面のGET用メソッド
+    /**
+     * ユーザー一覧画面のGETメソッド
+     *
+     * @param model 画面から受け取る情報,登録ユーザーの情報,登録件数情報
+     * @return 取得結果
+     */
     @GetMapping("/userList")
     public String getUserList(Model model) {
 
@@ -80,6 +85,14 @@ public class HomeController {
         return "login/homeLayout";
     }
 
+    /**
+     *ユーザー詳細画面のGETメソッド
+     *
+     * @param form 画面からの入力情報
+     * @param model 画面から受け取る情報,ラジオボタンの初期化情報,画面からの入力情報
+     * @param userId GETリクエストがきたユーザーID情報
+     * @return 取得結果
+     */
     @GetMapping("/userDetail/{id:.+}")
     public String getUserDetail(@ModelAttribute SignupForm form,
                                 Model model,
@@ -115,7 +128,12 @@ public class HomeController {
         return "login/homeLayout";
     }
 
-    //ボタン名によるメソッド判定、ユーザー更新用処理
+    /**
+     * ユーザー更新用メソッド
+     * @param form 画面からの入力情報
+     * @param model 更新結果の情報
+     * @return ユーザー一覧画面のGETメソッド(model)
+     */
     @PostMapping(value = "/userDetail", params = "update")
     public String postUserDetailUpdate(@ModelAttribute SignupForm form,
                                        Model model) {
@@ -152,7 +170,13 @@ public class HomeController {
         return getUserList(model);
     }
 
-    //ユーザー削除用処理
+    /**
+     * ユーザー削除用処理
+     *
+     * @param form 画面からの入力情報
+     * @param model 削除結果の情報
+     * @return ユーザー一覧画面のGETメソッド(model)
+     */
     @PostMapping(value = "/userDetail", params = "delete")
     public String postUserDetailDelete(@ModelAttribute SignupForm form,
                                        Model model) {
@@ -171,14 +195,23 @@ public class HomeController {
         return getUserList(model);
     }
 
-    //ログアウト用メソッド
+    /**
+     * ログアウト用メソッド
+     *
+     * @return 取得結果
+     */
     @PostMapping("/logout")
     public String postLogout() {
         //ログイン画面にリダイレクト
         return "redirect:/login";
     }
 
-    //ユーザー一覧のCSV出力用処理
+    /**
+     * ユーザー一覧のCSV出力メソッド
+     *
+     * @param model 画面から受け取る情報
+     * @return 取得結果
+     */
     @GetMapping("/userList/csv")
     public ResponseEntity<byte[]> getUserListCsv(Model model) {
 
@@ -201,12 +234,17 @@ public class HomeController {
         header.add("Content-Type", "text/csv; charset=UTF-8");
         header.setContentDispositionFormData("filename", "userList.csv");
 
-        //sample.csvを戻す
+        //userList.csvを戻す
         return new ResponseEntity<>(bytes, header, HttpStatus.OK);
     }
 
 
-    //アドミン権限専用画面のGET用メソッド
+    /**
+     * アドミン権限専用画面のGET用メソッド
+     *
+     * @param model 画面から受け取る情報
+     * @return 取得結果
+     */
     @GetMapping("/admin")
     public String getAdmin(Model model) {
 

@@ -25,7 +25,7 @@ public class UserDaoNameJdbcImpl implements UserDao {
     @Override
     public int count() {
 
-        //SQL文
+        //ユーザーマスターのレコードを全件取得
         String sql = "SELECT COUNT(*) FROM m_user";
 
         //パラメーター生成

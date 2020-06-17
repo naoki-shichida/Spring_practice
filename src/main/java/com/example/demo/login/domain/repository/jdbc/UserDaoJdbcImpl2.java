@@ -18,7 +18,7 @@ public class UserDaoJdbcImpl2 extends UserDaoJdbcImpl {
     @Override
     public User selectOne(String userId) {
 
-        //1件取得用SQL
+        //キーを元にユーザー情報を取得
         String sql = "SELECT * FROM m_user WHERE user_id = ?";
 
         //RowMapperの生成
@@ -32,7 +32,7 @@ public class UserDaoJdbcImpl2 extends UserDaoJdbcImpl {
     @Override
     public List<User> selectMany() {
 
-        //M_USERテーブルのデータを全権取得するSQL
+        //M_USERテーブルのデータを全件取得するSQL
         String sql = "SELECT * FROM m_user";
 
         //RowMapperの生成
