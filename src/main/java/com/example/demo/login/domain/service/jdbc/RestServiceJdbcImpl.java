@@ -26,22 +26,20 @@ public class RestServiceJdbcImpl implements RestService {
 
         int result = dao.insertOne(user);
 
-        if(result == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return (result == 0);
     }
 
     //1件検索用メソッド
     @Override
     public User selectOne(String userId) {
+
         return dao.selectOne(userId);
     }
 
     //全件検索用メソッド
     @Override
     public List<User> selectMany() {
+
         return dao.selectMany();
     }
 
@@ -50,11 +48,7 @@ public class RestServiceJdbcImpl implements RestService {
     public boolean update(User user) {
         int result = dao.updateOne(user);
 
-        if(result == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return (result == 0);
     }
 
     //1件削除用メソッド
@@ -62,10 +56,6 @@ public class RestServiceJdbcImpl implements RestService {
     public boolean delete(String userId) {
         int result = dao.deleteOne(userId);
 
-        if(result == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return (result == 0);
     }
 }

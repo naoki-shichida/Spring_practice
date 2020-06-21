@@ -21,7 +21,7 @@ public class UserDaoJdbcImpl3 extends UserDaoJdbcImpl {
         //キーを元にユーザー情報を取得
         String sql = "SELECT * FROM m_user WHERE user_id = ?";
 
-        //ポイント：BeanPropertyMapper,RowMapperの生成
+        //BeanPropertyMapper,RowMapperの生成
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 
         //SQl実行

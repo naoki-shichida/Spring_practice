@@ -30,9 +30,6 @@ public class UserService {
         //insert実行
         int rowNumber = dao.insertOne(user);
 
-        //判定用変数
-        boolean result = false;
-
         //insert成功
         return (rowNumber > 0);
     }
@@ -57,9 +54,6 @@ public class UserService {
     //1件更新メソッド
     public boolean updateOne(User user) {
 
-        //判定用変数
-        boolean result= false;
-
         //1件更新
         int rowNumber = dao.updateOne(user);
 
@@ -72,9 +66,6 @@ public class UserService {
 
         //1件削除
         int rowNumber = dao.deleteOne(userId);
-
-        //判定用変数
-        boolean result = false;
 
         //delete成功
         return (rowNumber > 0);
@@ -99,8 +90,7 @@ public class UserService {
         Path p = fs.getPath(fileName);
 
         //ファイルをbyte配列に変換
-        byte[] bytes = Files.readAllBytes(p);
+        return Files.readAllBytes(p);
 
-        return bytes;
     }
 }

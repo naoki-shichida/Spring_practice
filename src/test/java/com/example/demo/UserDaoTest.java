@@ -22,20 +22,21 @@ public class UserDaoTest {
     @Qualifier("UserDaoJdbcImpl")
     UserDao dao;
 
-    // カウントメソッドのテスト1
     @Test
-    public void countTest1() {
+    public void countTest_値が取れているか_正常系() {
 
         // カウントメソッドの結果が2件であることをテスト
-        assertEquals(dao.count(), 2);
+        int actual = dao.count();
+        assertEquals(2, actual);
     }
 
     // カウントメソッドのテスト2
     @Test
     @Sql("/testdata.sql")
-    public void countTest2() {
+    public void countTest_任意のSQL実行後_値が取れているか_正常系() {
 
         // カウントメソッドの結果が3件であることをテスト
-        assertEquals(dao.count(), 3);
+        int actual = dao.count();
+        assertEquals(3, actual);
     }
 }
